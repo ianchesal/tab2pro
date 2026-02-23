@@ -39,5 +39,8 @@ Thumbs.db
 # Claude Code
 .claude/settings.local.json
 
+# Output
+/*.cho
+
 # Large downloaded real-page fixtures (too large / site-specific to commit)
 # Hand-crafted minimal fixtures in tests/fixtures/ ARE committed and tracked.
