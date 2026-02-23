@@ -1,4 +1,3 @@
-from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 from click.testing import CliRunner
@@ -6,7 +5,6 @@ from click.testing import CliRunner
 from tab2pro.cli import _slugify, main
 from tab2pro.exceptions import FetchError, ParseError, UnsupportedSiteError
 from tab2pro.models import Line, Section, Song
-
 
 # ---------------------------------------------------------------------------
 # Helpers

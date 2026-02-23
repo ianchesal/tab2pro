@@ -40,6 +40,17 @@ uv run pytest
 
 # Run with coverage
 uv run pytest --cov=tab2pro -m "not integration"
+
+# Lint and format
+uv run ruff check src tests
+uv run ruff format src tests
+
+# Security checks
+uv run bandit -r src/tab2pro -c pyproject.toml
+uv run pip-audit
+
+# Run everything CI runs (shorthand via Makefile)
+make check
 ```
 
 ## Project Structure

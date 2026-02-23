@@ -108,6 +108,4 @@ def test_extract_chordcharts_skipped():
 
 def test_extract_no_content_area_raises_parse_error():
     with pytest.raises(ParseError):
-        DylanchordsAdapter().extract(
-            "<html><body><h1>Title</h1></body></html>", TEST_URL
-        )
+        DylanchordsAdapter().extract("<html><body><h1>Title</h1></body></html>", TEST_URL)

@@ -1,7 +1,7 @@
 from .adapters.base import SiteAdapter
-from .adapters.ultimate_guitar import UltimateGuitarAdapter
-from .adapters.rukind import RukindAdapter
 from .adapters.dylanchords import DylanchordsAdapter
+from .adapters.rukind import RukindAdapter
+from .adapters.ultimate_guitar import UltimateGuitarAdapter
 from .exceptions import UnsupportedSiteError
 
 _ADAPTERS: list[type[SiteAdapter]] = [

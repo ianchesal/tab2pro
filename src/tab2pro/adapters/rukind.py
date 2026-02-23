@@ -26,10 +26,10 @@ shared parse_text_tab() utility.
 import httpx
 from bs4 import BeautifulSoup, NavigableString, Tag
 
-from .base import SiteAdapter
-from .utils import parse_text_tab
 from ..exceptions import FetchError, ParseError
 from ..models import Song
+from .base import SiteAdapter
+from .utils import parse_text_tab
 
 
 class RukindAdapter(SiteAdapter):
@@ -79,7 +79,6 @@ def _extract_sections(tab_div: Tag, url: str) -> list:
     Each <pre> block is parsed and its lines appended to the current section.
     Empty sections (all-tab content, skipped by parse_text_tab) are dropped.
     """
-    from ..models import Section, Line
 
     sections = []
     current_label: str | None = None

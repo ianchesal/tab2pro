@@ -12,9 +12,9 @@ from .registry import get_adapter
 def _slugify(text: str) -> str:
     """Convert a string to a lowercase hyphenated slug suitable for filenames."""
     text = text.lower()
-    text = re.sub(r"[^\w\s-]", "", text)   # drop punctuation
-    text = re.sub(r"[\s_]+", "-", text)     # spaces/underscores → hyphens
-    text = re.sub(r"-{2,}", "-", text)      # collapse multiple hyphens
+    text = re.sub(r"[^\w\s-]", "", text)  # drop punctuation
+    text = re.sub(r"[\s_]+", "-", text)  # spaces/underscores → hyphens
+    text = re.sub(r"-{2,}", "-", text)  # collapse multiple hyphens
     return text.strip("-")
 
 
@@ -24,14 +24,30 @@ def _default_filename(artist: str, title: str) -> str:
 
 @click.command()
 @click.argument("url")
-@click.option("-o", "--output", "output_path", default=None, metavar="PATH",
-              help="Output file path (default: <artist>-<title>.cho)")
-@click.option("--stdout", is_flag=True, default=False,
-              help="Print to stdout instead of writing a file.")
-@click.option("--browser", is_flag=True, default=False,
-              help="Use Playwright headless browser (fallback for 403s).")
-@click.option("--version", "song_version", default=1, show_default=True,
-              help="For sites with multiple song versions, pick version N.")
+@click.option(
+    "-o",
+    "--output",
+    "output_path",
+    default=None,
+    metavar="PATH",
+    help="Output file path (default: <artist>-<title>.cho)",
+)
+@click.option(
+    "--stdout", is_flag=True, default=False, help="Print to stdout instead of writing a file."
+)
+@click.option(
+    "--browser",
+    is_flag=True,
+    default=False,
+    help="Use Playwright headless browser (fallback for 403s).",
+)
+@click.option(
+    "--version",
+    "song_version",
+    default=1,
+    show_default=True,
+    help="For sites with multiple song versions, pick version N.",
+)
 def main(url: str, output_path: str | None, stdout: bool, browser: bool, song_version: int) -> None:
     """Convert a chord tab page to ChordPro format.
 

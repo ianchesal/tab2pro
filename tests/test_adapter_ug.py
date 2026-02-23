@@ -29,7 +29,9 @@ def test_can_handle_ug_url():
 
 
 def test_cannot_handle_rukind_url():
-    assert not UltimateGuitarAdapter.can_handle("http://www.rukind.com/gdpedia/titles/tab/dark-star")
+    assert not UltimateGuitarAdapter.can_handle(
+        "http://www.rukind.com/gdpedia/titles/tab/dark-star"
+    )
 
 
 def test_cannot_handle_dylanchords_url():
@@ -103,9 +105,7 @@ def test_extract_ch_tags_stripped():
 
 def test_extract_missing_next_data_raises_parse_error():
     with pytest.raises(ParseError):
-        UltimateGuitarAdapter().extract(
-            "<html><body>No __NEXT_DATA__ here</body></html>", TEST_URL
-        )
+        UltimateGuitarAdapter().extract("<html><body>No __NEXT_DATA__ here</body></html>", TEST_URL)
 
 
 def test_extract_empty_content_raises_parse_error():
@@ -122,11 +122,7 @@ def test_extract_empty_content_raises_parse_error():
             }
         }
     }
-    html = (
-        f'<script id="__NEXT_DATA__" type="application/json">'
-        f"{json.dumps(data)}"
-        f"</script>"
-    )
+    html = f'<script id="__NEXT_DATA__" type="application/json">{json.dumps(data)}</script>'
     with pytest.raises(ParseError):
         UltimateGuitarAdapter().extract(html, TEST_URL)
 

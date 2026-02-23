@@ -33,10 +33,10 @@ import re
 import httpx
 from bs4 import BeautifulSoup
 
-from .base import SiteAdapter
-from .utils import parse_text_tab
 from ..exceptions import FetchError, ParseError
 from ..models import Song
+from .base import SiteAdapter
+from .utils import parse_text_tab
 
 _FETCH_HEADERS = {
     "User-Agent": (
@@ -45,10 +45,7 @@ _FETCH_HEADERS = {
         "Chrome/120.0.0.0 Safari/537.36"
     ),
     "Accept-Language": "en-US,en;q=0.9",
-    "Accept": (
-        "text/html,application/xhtml+xml,application/xml;q=0.9,"
-        "image/webp,*/*;q=0.8"
-    ),
+    "Accept": ("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"),
     "Referer": "https://www.google.com/",
 }
 

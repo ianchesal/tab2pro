@@ -31,10 +31,10 @@ import re
 import httpx
 from bs4 import BeautifulSoup, Tag
 
-from .base import SiteAdapter
-from .utils import parse_text_tab
 from ..exceptions import FetchError, ParseError
 from ..models import Song
+from .base import SiteAdapter
+from .utils import parse_text_tab
 
 _CAPO_RE = re.compile(r"[Cc]apo\s+(\d+)")
 _TUNING_RE = re.compile(
@@ -71,9 +71,8 @@ class DylanchordsAdapter(SiteAdapter):
         title = h1.get_text(strip=True) if h1 else _title_from_url(url)
 
         # Main content area (Drupal field-name-body)
-        content_div = (
-            soup.find("div", class_="field-name-body")
-            or soup.find("div", class_="field-items")
+        content_div = soup.find("div", class_="field-name-body") or soup.find(
+            "div", class_="field-items"
         )
         if not content_div:
             raise ParseError(url, "Could not find Drupal content area (field-name-body)")

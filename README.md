@@ -116,15 +116,51 @@ That's it — nothing else changes.
 
 ## Development
 
+### Setup
+
 ```bash
-# Run unit tests (no network)
-uv run pytest -m "not integration"
-
-# Run with coverage
-uv run pytest --cov=tab2pro -m "not integration"
-
-# Run all tests including live network
-uv run pytest
+git clone <repo>
+cd tab2pro
+uv sync
 ```
 
-Tests live in `tests/`. Fixture HTML files for offline adapter tests are in `tests/fixtures/`. Integration tests (live network) are marked `@pytest.mark.integration` and skipped by default.
+### Running checks locally
+
+The same checks that run in CI can be run locally via `make`:
+
+```bash
+make check       # lint + security + unit tests (mirrors CI exactly)
+make lint        # ruff linting only
+make format      # auto-format with ruff (writes files)
+make security    # bandit SAST + pip-audit dependency scan
+make test        # unit tests with coverage (no network)
+make test-all    # all tests including live network integration tests
+```
+
+Or invoke the tools directly with `uv run`:
+
+```bash
+uv run ruff check src tests          # lint
+uv run ruff format src tests         # format
+uv run bandit -r src/tab2pro -c pyproject.toml   # SAST
+uv run pip-audit                     # dependency CVE scan
+uv run pytest -m "not integration"   # unit tests
+uv run pytest                        # all tests (live network)
+```
+
+### Pre-commit hooks (optional)
+
+Install [pre-commit](https://pre-commit.com/) to have ruff and bandit run automatically before every commit:
+
+```bash
+pip install pre-commit
+pre-commit install
+```
+
+After that, `git commit` will run ruff (lint + format) and bandit on staged files and block the commit if anything fails.
+
+### CI
+
+GitHub Actions runs `lint`, `security`, and `test` jobs in parallel on every pull request and every push to `main`. The test job runs against Python 3.12 and 3.13. Pull requests must pass all three jobs before merging.
+
+Tests live in `tests/`. Fixture HTML files for offline adapter tests are in `tests/fixtures/`. Integration tests (live network) are marked `@pytest.mark.integration` and excluded from CI.

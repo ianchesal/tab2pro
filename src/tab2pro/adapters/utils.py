@@ -32,7 +32,7 @@ CHORD_NAME_RE = re.compile(
     r"^(?:"
     r"[A-G][#b]?(?:m(?:aj)?|aug|dim|sus|add)?\d*(?:\/[A-Ga-g][#b]?)?"
     r"|"
-    r"\/[A-Ga-g][#b]?"      # standalone slash-bass token, e.g. /b, /f#
+    r"\/[A-Ga-g][#b]?"  # standalone slash-bass token, e.g. /b, /f#
     r")$"
 )
 
@@ -74,11 +74,11 @@ TAB_LEGEND_RE = re.compile(r"\([\\^hpb]\)\s+\w")
 
 
 class LineType(Enum):
-    BLANK = auto()    # empty or whitespace only
+    BLANK = auto()  # empty or whitespace only
     SECTION = auto()  # section header: [Verse 1], Chorus:
-    CHORD = auto()    # chord-only line: [D]  [G]  [Am7]  or  D  G  Am7
-    TAB = auto()      # ASCII guitar tab line: e|--0--1--
-    LYRIC = auto()    # everything else
+    CHORD = auto()  # chord-only line: [D]  [G]  [Am7]  or  D  G  Am7
+    TAB = auto()  # ASCII guitar tab line: e|--0--1--
+    LYRIC = auto()  # everything else
 
 
 # ---------------------------------------------------------------------------
@@ -169,15 +169,10 @@ def extract_chords_with_offsets(line: str, style: str) -> list[tuple[int, str]]:
         List of ``(offset, name)`` tuples sorted left to right.
     """
     if style == "bracketed":
-        return [
-            (m.start(), m.group(1))
-            for m in BRACKETED_CHORD_TOKEN_RE.finditer(line)
-        ]
+        return [(m.start(), m.group(1)) for m in BRACKETED_CHORD_TOKEN_RE.finditer(line)]
     # unbracketed: each non-whitespace run that is a valid chord name
     return [
-        (m.start(), m.group())
-        for m in re.finditer(r"\S+", line)
-        if CHORD_NAME_RE.match(m.group())
+        (m.start(), m.group()) for m in re.finditer(r"\S+", line) if CHORD_NAME_RE.match(m.group())
     ]
 
 
