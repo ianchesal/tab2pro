@@ -23,12 +23,17 @@ from ..models import Line, Section
 # Regexes
 # ---------------------------------------------------------------------------
 
-# Valid chord name without brackets: A, Am, Am7, Amaj7, Asus4, G/B, C#m7, etc.
+# Valid chord name without brackets.
+# Handles:
+#   Standard:          A, Am, Am7, Amaj7, Asus4, G/B, C#m7
+#   Lowercase bass:    D/a, C/b, D/f#   (Dylanchords style)
+#   Standalone bass:   /b, /a, /f#      (Dylanchords continuation chords)
 CHORD_NAME_RE = re.compile(
-    r"^[A-G][#b]?"          # root + optional accidental
-    r"(?:m(?:aj)?|aug|dim|sus|add)?"  # optional quality
-    r"\d*"                   # optional extension number
-    r"(?:\/[A-G][#b]?)?$"   # optional slash bass note
+    r"^(?:"
+    r"[A-G][#b]?(?:m(?:aj)?|aug|dim|sus|add)?\d*(?:\/[A-Ga-g][#b]?)?"
+    r"|"
+    r"\/[A-Ga-g][#b]?"      # standalone slash-bass token, e.g. /b, /f#
+    r")$"
 )
 
 # A bracketed chord token: [D], [Am7], [G/B]
@@ -52,7 +57,15 @@ SECTION_KEYWORDS_RE = re.compile(
 )
 
 # ASCII guitar tab line: e|--0-1-3--, B|--1--
-TAB_LINE_RE = re.compile(r"^[eEBGDAd]\|[-\d hpbr^/\\|~]+$")
+# ASCII guitar tab line.  Two formats appear in the wild:
+#   Standard:  e|---0---1---  (string name + pipe + fret chars)
+#   Rukind:    E---------2--  (string name + dashes, no leading pipe)
+# Match either: string-name followed by "|" + dash-or-digit,  or  "--".
+TAB_LINE_RE = re.compile(r"^[eEBGDAd](?:\|[-\d]|--)")
+
+# Tab notation legend line: "(^) Slide Up  (\) Slide Down  (h) Hammer On ..."
+# These appear in many tab sites as a key to the notation symbols used.
+TAB_LEGEND_RE = re.compile(r"\([\\^hpb]\)\s+\w")
 
 
 # ---------------------------------------------------------------------------
@@ -86,7 +99,7 @@ def classify_line(line: str, style: str) -> LineType:
     stripped = line.strip()
     if not stripped:
         return LineType.BLANK
-    if TAB_LINE_RE.match(stripped):
+    if TAB_LINE_RE.match(stripped) or TAB_LEGEND_RE.search(stripped):
         return LineType.TAB
     if style == "bracketed":
         return _classify_bracketed(stripped)

@@ -191,7 +191,7 @@ Full pipeline that takes raw tab text and returns parsed sections:
 
 ---
 
-## Phase 6 — Site-Specific Adapters
+## Phase 6 — Site-Specific Adapters ✅
 
 ### 6a — Ultimate Guitar (`adapters/ultimate_guitar.py`)
 
@@ -370,8 +370,8 @@ tests/
 
 ## Open Questions
 
-1. **Dylanchords chord notation** — Is it bracketed `[D]` or unbracketed `D`? Confirm on first integration by inspecting a live page.
-2. **UG `[ch]` tags** — Does the JSON content use `[ch]D[/ch]` or plain `[D]`? Need to check against real fetched JSON.
-3. **Rukind mixed tab/chord pages** — How common are pages with guitar tab (ASCII) sections? Does every page have them, or only some? Define the skip heuristic.
-4. **Dylanchords multi-version UX** — Should the default behavior extract all versions into one file (with `{comment:}` separators), or just the first? Consider what's most useful for a ChordPro app.
+1. ~~**Dylanchords chord notation**~~ — Resolved: unbracketed, space-aligned. Includes lowercase slash-bass tokens (`/b`, `D/a`, `D/f#`).
+2. **UG `[ch]` tags** — Implemented handler for `[ch]D[/ch]` → `[D]` stripping; untested against live UG pages (403 blocks direct fetch).
+3. ~~**Rukind mixed tab/chord pages**~~ — Resolved: every page mixes chord/lyric `<pre>` blocks with ASCII tab `<pre>` blocks. Tab lines (matching `E--` / `e|--` patterns) and legend lines (`(^) Slide Up...`) are filtered in `classify_line()`.
+4. ~~**Dylanchords multi-version UX**~~ — Resolved: default to version 1; `--version N` flag selects others. Page reports N available versions on error.
 5. ~~**Tool rename**~~ — Resolved: CLI is `tab2pro`.
