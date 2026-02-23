@@ -251,7 +251,7 @@ Optional `--browser` flag falls back to `playwright` (Chromium) for persistent 4
 
 ---
 
-## Phase 7 — ChordPro Formatter (`chordpro.py`)
+## Phase 7 — ChordPro Formatter (`chordpro.py`) ✅
 
 Site-agnostic. Renders a `Song` to ChordPro text.
 
@@ -289,7 +289,7 @@ I just need some place where I can [G]lay my [D]head
 
 ---
 
-## Phase 8 — CLI (`cli.py`)
+## Phase 8 — CLI (`cli.py`) ✅
 
 ```
 Usage: tab2pro [OPTIONS] URL
@@ -319,7 +319,7 @@ Options:
 
 ---
 
-## Phase 9 — Tests
+## Phase 9 — Tests ✅
 
 **Structure:**
 ```

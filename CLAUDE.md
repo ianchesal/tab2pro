@@ -102,9 +102,10 @@ uv run pytest --cov=tab2pro -m "not integration"
 
 ### Dylan Chords
 - Drupal-based; no known bot protection
-- Can have multiple song versions (different capo/tuning) on one page
-- Chord notation: TBD on first integration
+- Can have multiple song versions (different capo/tuning) on one page — `--version N` selects which
+- Chord notation: **unbracketed**, space-aligned, with lowercase slash-bass (`D/a`, `C/b`) and standalone bass tokens (`/b`, `/f#`)
 - `Song.tuning` field captures non-standard tunings (e.g. "Drop D", "DADGAD")
+- Multiple versions separated by `<h2>` tags; `<pre class="chordcharts">` blocks are skipped
 
 ## ChordPro Output
 - File extension: `.cho`
