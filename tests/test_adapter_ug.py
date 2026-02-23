@@ -7,11 +7,16 @@ from tab2pro.adapters.ultimate_guitar import UltimateGuitarAdapter
 from tab2pro.exceptions import ParseError
 
 FIXTURE = Path(__file__).parent / "fixtures" / "ultimate_guitar" / "the-weight.html"
+FIXTURE_JSSTORE = Path(__file__).parent / "fixtures" / "ultimate_guitar" / "the-weight-jsstore.html"
 TEST_URL = "https://tabs.ultimate-guitar.com/tab/the-band/the-weight-chords-61592"
 
 
 def load_fixture() -> str:
     return FIXTURE.read_text(encoding="utf-8")
+
+
+def load_fixture_jsstore() -> str:
+    return FIXTURE_JSSTORE.read_text(encoding="utf-8")
 
 
 # ---------------------------------------------------------------------------
@@ -130,3 +135,40 @@ def test_extract_malformed_json_raises_parse_error():
     html = '<script id="__NEXT_DATA__" type="application/json">not json</script>'
     with pytest.raises(ParseError):
         UltimateGuitarAdapter().extract(html, TEST_URL)
+
+
+# ---------------------------------------------------------------------------
+# js-store format (current UG page format)
+# ---------------------------------------------------------------------------
+
+
+def test_jsstore_extract_title_and_artist():
+    song = UltimateGuitarAdapter().extract(load_fixture_jsstore(), TEST_URL)
+    assert song.title == "The Weight"
+    assert song.artist == "The Band"
+
+
+def test_jsstore_extract_key():
+    song = UltimateGuitarAdapter().extract(load_fixture_jsstore(), TEST_URL)
+    assert song.key == "A"
+
+
+def test_jsstore_extract_sections_non_empty():
+    song = UltimateGuitarAdapter().extract(load_fixture_jsstore(), TEST_URL)
+    assert len(song.sections) >= 1
+
+
+def test_jsstore_extract_ch_and_tab_tags_stripped():
+    song = UltimateGuitarAdapter().extract(load_fixture_jsstore(), TEST_URL)
+    for section in song.sections:
+        for line in section.lines:
+            assert "[ch]" not in line.content
+            assert "[/ch]" not in line.content
+            assert "[tab]" not in line.content
+            assert "[/tab]" not in line.content
+
+
+def test_jsstore_extract_has_inline_chords():
+    song = UltimateGuitarAdapter().extract(load_fixture_jsstore(), TEST_URL)
+    verse = next(s for s in song.sections if s.label and "Verse" in s.label)
+    assert "[A]" in verse.lines[0].content
