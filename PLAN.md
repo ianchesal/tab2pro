@@ -40,21 +40,21 @@ Each site gets its own adapter. All adapters implement the same interface and pr
 
 ---
 
-## Phase 1 — Project Scaffolding
+## Phase 1 — Project Scaffolding ✅
 
 **Tasks:**
-- [ ] Add `.gitignore` — cover Python standard ignores (`__pycache__`, `*.pyc`, `.venv`, `dist/`, `*.egg-info/`), uv artifacts (`.uv/`), editor files (`.vscode/`, `.idea/`, `*.swp`), OS files (`.DS_Store`), Claude Code local config (`.claude/settings.local.json`), and any downloaded test fixture HTML files that shouldn't be committed
-- [ ] Add `.python-version` — pin the Python version (e.g. `3.12`) so `uv` and other tooling agree
-- [ ] Initialize a `pyproject.toml` using `uv init` with `[project.scripts]` entry point (`tab2pro = "tab2pro.cli:main"`)
-- [ ] Add dependencies: `httpx`, `beautifulsoup4`, `click`
-- [ ] Add dev dependencies: `pytest`, `pytest-cov`, `respx`
-- [ ] Create the full package layout (see Structure section in CLAUDE.md)
-- [ ] Create `tests/fixtures/` with subdirectories per site
-- [ ] Verify `git status` is clean and make an initial commit
+- [x] Add `.gitignore` — cover Python standard ignores (`__pycache__`, `*.pyc`, `.venv`, `dist/`, `*.egg-info/`), uv artifacts (`.uv/`), editor files (`.vscode/`, `.idea/`, `*.swp`), OS files (`.DS_Store`), Claude Code local config (`.claude/settings.local.json`), and any downloaded test fixture HTML files that shouldn't be committed
+- [x] Add `.python-version` — pin the Python version (e.g. `3.12`) so `uv` and other tooling agree
+- [x] Initialize a `pyproject.toml` using `uv init` with `[project.scripts]` entry point (`tab2pro = "tab2pro.cli:main"`)
+- [x] Add dependencies: `httpx`, `beautifulsoup4`, `click`
+- [x] Add dev dependencies: `pytest`, `pytest-cov`, `respx`
+- [x] Create the full package layout (see Structure section in CLAUDE.md)
+- [x] Create `tests/fixtures/` with subdirectories per site
+- [x] Verify `git status` is clean and make an initial commit
 
 ---
 
-## Phase 2 — Canonical Data Model (`models.py`)
+## Phase 2 — Canonical Data Model (`models.py`) ✅
 
 Define the shared intermediate representation that all adapters produce and the formatter consumes. This is the contract between the site-specific and site-agnostic layers.
 
@@ -88,7 +88,7 @@ class Song:
 
 ---
 
-## Phase 3 — Adapter Interface (`adapters/base.py`)
+## Phase 3 — Adapter Interface (`adapters/base.py`) ✅
 
 ```python
 from abc import ABC, abstractmethod
@@ -122,7 +122,7 @@ class SiteAdapter(ABC):
 
 ---
 
-## Phase 4 — Adapter Registry (`registry.py`)
+## Phase 4 — Adapter Registry (`registry.py`) ✅
 
 A simple registry that holds all known adapter classes and finds the right one for a URL.
 
@@ -148,7 +148,7 @@ To add a new site: create `adapters/newsite.py`, implement `SiteAdapter`, add to
 
 ---
 
-## Phase 5 — Shared Parsing Utilities (`adapters/utils.py`)
+## Phase 5 — Shared Parsing Utilities (`adapters/utils.py`) ✅
 
 The most complex parsing logic — merging chord lines into lyric lines — is common across all three target sites. Extracting it into a shared utility means each adapter can reuse it with minor configuration.
 
@@ -374,4 +374,4 @@ tests/
 2. **UG `[ch]` tags** — Does the JSON content use `[ch]D[/ch]` or plain `[D]`? Need to check against real fetched JSON.
 3. **Rukind mixed tab/chord pages** — How common are pages with guitar tab (ASCII) sections? Does every page have them, or only some? Define the skip heuristic.
 4. **Dylanchords multi-version UX** — Should the default behavior extract all versions into one file (with `{comment:}` separators), or just the first? Consider what's most useful for a ChordPro app.
-5. **Tool rename** — The CLI entry point is currently `ug2chordpro`, named for Ultimate Guitar only. With multi-site support, consider renaming to something like `tab2pro` or `chord2pro`.
+5. ~~**Tool rename**~~ — Resolved: CLI is `tab2pro`.
