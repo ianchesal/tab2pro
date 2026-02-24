@@ -13,14 +13,22 @@ Requires Python 3.12+ and [uv](https://docs.astral.sh/uv/).
 
 ```bash
 git clone <repo>
-cd ultimate-guitar-scraper
-uv sync
+cd tab2pro
+make install
+```
+
+`make install` runs `uv sync` and then writes a small shell wrapper to `~/.local/bin/tab2pro` so you can invoke `tab2pro` directly from any directory without prefixing `uv run`.
+
+To remove the wrapper:
+
+```bash
+make uninstall
 ```
 
 ## Usage
 
 ```bash
-uv run tab2pro <url>
+tab2pro <url>
 ```
 
 By default the output is written to `<artist>-<title>.cho` in the current directory.
@@ -129,6 +137,8 @@ uv sync
 The same checks that run in CI can be run locally via `make`:
 
 ```bash
+make install     # uv sync + install ~/.local/bin/tab2pro wrapper
+make uninstall   # remove ~/.local/bin/tab2pro wrapper
 make check       # lint + security + unit tests (mirrors CI exactly)
 make lint        # ruff linting only
 make format      # auto-format with ruff (writes files)
