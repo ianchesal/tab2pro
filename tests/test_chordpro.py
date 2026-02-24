@@ -3,7 +3,7 @@ from tab2pro.models import Line, Section, Song
 
 
 def _song(**kwargs) -> Song:
-    defaults = dict(title="Dark Star", artist="Grateful Dead")
+    defaults = {"title": "Dark Star", "artist": "Grateful Dead"}
     defaults.update(kwargs)
     return Song(**defaults)
 
@@ -48,9 +48,7 @@ def test_tuning_emitted():
 
 
 def test_verse_section_directives():
-    song = _song(sections=[
-        Section(label="Verse 1", lines=[Line(content="[D]some lyrics")])
-    ])
+    song = _song(sections=[Section(label="Verse 1", lines=[Line(content="[D]some lyrics")])])
     out = _render(song)
     assert "{start_of_verse: Verse 1}" in out
     assert "{end_of_verse}" in out
@@ -58,9 +56,7 @@ def test_verse_section_directives():
 
 
 def test_verse_n_label_preserved_in_directive():
-    song = _song(sections=[
-        Section(label="Verse 2", lines=[Line(content="x")])
-    ])
+    song = _song(sections=[Section(label="Verse 2", lines=[Line(content="x")])])
     assert "{start_of_verse: Verse 2}" in _render(song)
 
 
@@ -70,18 +66,14 @@ def test_verse_n_label_preserved_in_directive():
 
 
 def test_chorus_section_directives():
-    song = _song(sections=[
-        Section(label="Chorus", lines=[Line(content="[G]chorus line")])
-    ])
+    song = _song(sections=[Section(label="Chorus", lines=[Line(content="[G]chorus line")])])
     out = _render(song)
     assert "{start_of_chorus}" in out
     assert "{end_of_chorus}" in out
 
 
 def test_bridge_section_directives():
-    song = _song(sections=[
-        Section(label="Bridge", lines=[Line(content="[A]bridge")])
-    ])
+    song = _song(sections=[Section(label="Bridge", lines=[Line(content="[A]bridge")])])
     out = _render(song)
     assert "{start_of_bridge}" in out
     assert "{end_of_bridge}" in out
@@ -128,10 +120,12 @@ def test_unlabeled_section_no_directive():
 
 
 def test_blank_line_between_sections():
-    song = _song(sections=[
-        Section(label="Verse 1", lines=[Line(content="line one")]),
-        Section(label="Chorus", lines=[Line(content="line two")]),
-    ])
+    song = _song(
+        sections=[
+            Section(label="Verse 1", lines=[Line(content="line one")]),
+            Section(label="Chorus", lines=[Line(content="line two")]),
+        ]
+    )
     assert "\n\n" in _render(song)
 
 
@@ -140,9 +134,7 @@ def test_output_ends_with_newline():
 
 
 def test_metadata_comes_before_sections():
-    song = _song(key="D", sections=[
-        Section(label="Verse 1", lines=[Line(content="lyric")])
-    ])
+    song = _song(key="D", sections=[Section(label="Verse 1", lines=[Line(content="lyric")])])
     out = _render(song)
     title_pos = out.index("{title:")
     verse_pos = out.index("{start_of_verse")

@@ -35,7 +35,7 @@ Usage::
 
 import re
 
-from .models import Song, Section
+from .models import Section, Song
 
 # Section labels whose directives ChordPro has standardised.
 _STRUCTURED = {

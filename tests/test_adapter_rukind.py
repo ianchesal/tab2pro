@@ -96,6 +96,4 @@ def test_extract_verse_section_label():
 
 def test_extract_missing_tab_div_raises_parse_error():
     with pytest.raises(ParseError):
-        RukindAdapter().extract(
-            "<html><body><h1>Dark Star</h1></body></html>", TEST_URL
-        )
+        RukindAdapter().extract("<html><body><h1>Dark Star</h1></body></html>", TEST_URL)

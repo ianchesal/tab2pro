@@ -7,7 +7,6 @@ from tab2pro.adapters.utils import (
     parse_text_tab,
 )
 
-
 # ---------------------------------------------------------------------------
 # classify_line
 # ---------------------------------------------------------------------------
@@ -29,9 +28,9 @@ def test_classify_tab_rukind_format():
 
 
 def test_classify_tab_legend():
-    assert classify_line(
-        r"(^) Slide Up  (\) Slide Down  (h) Hammer On", "unbracketed"
-    ) == LineType.TAB
+    assert (
+        classify_line(r"(^) Slide Up  (\) Slide Down  (h) Hammer On", "unbracketed") == LineType.TAB
+    )
 
 
 def test_classify_section_bracketed_single_non_chord():
