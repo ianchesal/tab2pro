@@ -146,9 +146,10 @@ def _split_versions(content_div: Tag) -> list[dict]:
 
         elif tag == "pre":
             classes = element.get("class") or []
-            if "verse" in classes:
+            # Accept any pre block except chord definition tables and ASCII tab blocks.
+            # Song content may use "verse", "bridge", "chorus", etc.
+            if not any(c in ("chordcharts", "tab") for c in classes):
                 current["verses"].append(element.get_text())
-            # "chordcharts" blocks are intentionally skipped
 
         elif tag == "p":
             text = element.get_text(strip=True)
