@@ -101,6 +101,15 @@ def test_extract_chordcharts_skipped():
             assert "320003" not in line.content
 
 
+def test_extract_bridge_pre_included():
+    # <pre class="bridge"> blocks must be included, not silently dropped.
+    # Regression test: only "verse" was previously accepted.
+    song = DylanchordsAdapter().extract(load_fixture(), TEST_URL)
+    all_lines = [line.content for s in song.sections for line in s.lines]
+    # "my friend" comes from the <pre class="bridge"> block in the fixture
+    assert any("my friend" in line.lower() for line in all_lines)
+
+
 # ---------------------------------------------------------------------------
 # extract — error cases
 # ---------------------------------------------------------------------------
