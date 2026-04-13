@@ -23,7 +23,7 @@ dev = [
     "pytest-cov>=5.0",
     "respx>=0.21",
     "ruff>=0.9",
-    "bandit[toml]>=1.7",
+    "bandit[toml]>=1.9.4",
     "pip-audit>=2.7",
 ]
 
